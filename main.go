@@ -133,3 +133,4 @@ func main() {
         fmt.Printf("Error combining SVG images: %v\n", err)
     }
 }
+
