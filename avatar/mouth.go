@@ -8,17 +8,6 @@ import (
 
 
 
-func getEggShapePoints(a, b, k float64, segmentPoints int) []Point {
-    result := make([]Point, 0, segmentPoints*4)
-    for i := 0; i < segmentPoints; i++ {
-        degree := (math.Pi/2/float64(segmentPoints))*float64(i) + utility.randomFromInterval(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
-        y := math.Sin(degree) * b
-        x := math.Sqrt(((1 - (y*y)/(b*b)) / (1 + k*y)) * a * a)
-        result = append(result, Point{x, y}, Point{-x, y}, Point{-x, -y}, Point{x, -y})
-    }
-    return result
-}
-
 func generateMouthShape0(faceContour []Point, faceHeight, faceWidth float64) []Point {
     mouthRightY := utility.randomFromInterval(faceHeight/7, faceHeight/3.5)
     mouthLeftY := utility.randomFromInterval(faceHeight/7, faceHeight/3.5)
