@@ -3,28 +3,25 @@ package avatar
 import (
     "math"
     "math/rand"
-    "time"
+    "github.com/BYDquest/RRRDoodlers/utility"
 )
-
-
-
 
 
 func getEggShapePoints(a, b, k float64, segmentPoints int) [][2]float64 {
     var result [][2]float64
     for i := 0; i < segmentPoints; i++ {
-        degree := (math.Pi / 2 / float64(segmentPoints)) * float64(i) + randomFromInterval(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
+        degree := (math.Pi / 2 / float64(segmentPoints)) * float64(i) + utility.randomFromInterval(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
         y := math.Sin(degree) * b
         x := math.Sqrt(((1 - (y*y)/(b*b)) / (1 + k*y)) * a * a)
-        x += randomFromInterval(-a/200.0, a/200.0)
+        x += utility.randomFromInterval(-a/200.0, a/200.0)
         result = append(result, [2]float64{x, y})
     }
 
     for i := segmentPoints; i > 0; i-- {
-        degree := (math.Pi / 2 / float64(segmentPoints)) * float64(i) + randomFromInterval(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
+        degree := (math.Pi / 2 / float64(segmentPoints)) * float64(i) + utility.randomFromInterval(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
         y := math.Sin(degree) * b
         x := -math.Sqrt(((1 - (y*y)/(b*b)) / (1 + k*y)) * a * a)
-        x += randomFromInterval(-a/200.0, a/200.0)
+        x += utility.randomFromInterval(-a/200.0, a/200.0)
         result = append(result, [2]float64{x, y})
     }
 
@@ -32,26 +29,26 @@ func getEggShapePoints(a, b, k float64, segmentPoints int) [][2]float64 {
 }
 
 func generateFaceContourPoints(numPoints int) ([][2]float64, float64, float64, [2]float64) {
-    faceSizeX0 := randomFromInterval(50, 100)
-    faceSizeY0 := randomFromInterval(70, 100)
-    faceSizeY1 := randomFromInterval(50, 80)
-    faceSizeX1 := randomFromInterval(70, 100)
-    faceK0 := randomFromInterval(0.001, 0.005) * func() float64 {
+    faceSizeX0 := utility.randomFromInterval(50, 100)
+    faceSizeY0 := utility.randomFromInterval(70, 100)
+    faceSizeY1 := utility.randomFromInterval(50, 80)
+    faceSizeX1 := utility.randomFromInterval(70, 100)
+    faceK0 := utility.randomFromInterval(0.001, 0.005) * func() float64 {
         if rand.Float64() > 0.5 {
             return 1
         }
         return -1
     }()
-    faceK1 := randomFromInterval(0.001, 0.005) * func() float64 {
+    faceK1 := utility.randomFromInterval(0.001, 0.005) * func() float64 {
         if rand.Float64() > 0.5 {
             return 1
         }
         return -1
     }()
-    face0TranslateX := randomFromInterval(-5, 5)
-    face0TranslateY := randomFromInterval(-15, 15)
-    face1TranslateY := randomFromInterval(-5, 5)
-    face1TranslateX := randomFromInterval(-5, 25)
+    face0TranslateX := utility.randomFromInterval(-5, 5)
+    face0TranslateY := utility.randomFromInterval(-15, 15)
+    face1TranslateY := utility.randomFromInterval(-5, 5)
+    face1TranslateX := utility.randomFromInterval(-5, 25)
 
     results0 := getEggShapePoints(faceSizeX0, faceSizeY0, faceK0, numPoints)
     results1 := getEggShapePoints(faceSizeX1, faceSizeY1, faceK1, numPoints)
@@ -88,12 +85,12 @@ func generateFaceContourPoints(numPoints int) ([][2]float64, float64, float64, [
     return results, width, height, center
 }
 
-func main() {
-    // Example of usage
-    facePoints, width, height, center := generateFaceContourPoints(100)
-    // Here you can use the facePoints, width, height, and center for further processing or visualization
-    _ = facePoints // This line is just to avoid unused variable error. Replace it with your actual code.
-    _ = width
-    _ = height
-    _ = center
-}
+// func main() {
+//     // Example of usage
+//     facePoints, width, height, center := generateFaceContourPoints(100)
+//     // Here you can use the facePoints, width, height, and center for further processing or visualization
+//     _ = facePoints // This line is just to avoid unused variable error. Replace it with your actual code.
+//     _ = width
+//     _ = height
+//     _ = center
+// }

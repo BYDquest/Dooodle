@@ -2,6 +2,7 @@ package avatar
 
 import (
     "math/rand"
+	"github.com/BYDquest/RRRDoodlers/utility"
 )
 
 // generateEyeParameters generates random parameters for an eye's shape
@@ -48,8 +49,8 @@ func generateEyePoints(rands map[string]float64, width float64) ([][][2]float64,
     lowerEyelidPoints := make([][2]float64, 100)
 
     for t := 0; t < 100; t++ {
-        upperEyelidPoints[t] = cubicBezier(P0Upper, P1Upper, P2Upper, P3Upper, float64(t)/100.0)
-        lowerEyelidPoints[t] = cubicBezier(P0Lower, P1Lower, P2Lower, P3Lower, float64(t)/100.0)
+        upperEyelidPoints[t] = utility.cubicBezier(P0Upper, P1Upper, P2Upper, P3Upper, float64(t)/100.0)
+        lowerEyelidPoints[t] = utility.cubicBezier(P0Lower, P1Lower, P2Lower, P3Lower, float64(t)/100.0)
     }
 
     return upperEyelidPoints, lowerEyelidPoints
@@ -62,7 +63,7 @@ func generateBothEyes(width float64) ([][][2]float64, [][][2]float64) {
     // Create and modify parameters for the right eye
     randsRight := make(map[string]float64)
     for k, v := range randsLeft {
-        randsRight[k] = v + randomFromInterval(-v/2.0, v/2.0)
+        randsRight[k] = v + utility.randomFromInterval(-v/2.0, v/2.0)
     }
 
     upperLeft, lowerLeft := generateEyePoints(randsLeft, width)
@@ -71,9 +72,9 @@ func generateBothEyes(width float64) ([][][2]float64, [][][2]float64) {
     return append(upperLeft, lowerLeft...), append(upperRight, lowerRight...)
 }
 
-func main() {
-    // Example of usage
-    leftEye, rightEye := generateBothEyes(50)
-    _ = leftEye  // Use the generated points for further processing or visualization
-    _ = rightEye // Use the generated points for further processing or visualization
-}
+// func main() {
+//     // Example of usage
+//     leftEye, rightEye := generateBothEyes(50)
+//     _ = leftEye  // Use the generated points for further processing or visualization
+//     _ = rightEye // Use the generated points for further processing or visualization
+// }

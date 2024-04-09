@@ -90,15 +90,15 @@ func generateMouthShape2(faceContour []Point, faceHeight, faceWidth float64) []P
     return mouthPoints
 }
 
-func main() {
-    // Example usage
-    faceContour := []Point{} // Define your face contour points
-    faceHeight, faceWidth := 200.0, 100.0 // Example face dimensions
+// func main() {
+//     // Example usage
+//     faceContour := []Point{} // Define your face contour points
+//     faceHeight, faceWidth := 200.0, 100.0 // Example face dimensions
 
-    mouthShape := generateMouthShape0(faceContour, faceHeight, faceWidth)
-    for _, point := range mouthShape {
-        println(point.X, point.Y)
-    }
+//     mouthShape := generateMouthShape0(faceContour, faceHeight, faceWidth)
+//     for _, point := range mouthShape {
+//         println(point.X, point.Y)
+//     }
 
-    // Call other functions similarly
-}
+//     // Call other functions similarly
+// }
