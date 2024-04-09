@@ -6,8 +6,6 @@ import (
 )
 
 
-
-
 func getEggShapePoints(a, b, k float64, segmentPoints int) []Point {
     result := make([]Point, 0, segmentPoints*4)
     for i := 0; i < segmentPoints; i++ {
