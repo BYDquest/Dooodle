@@ -2,7 +2,6 @@ package avatar
 
 import (
     "math"
-    "github.com/BYDquest/RRRDoodlers/utility"
 )
 
 
