@@ -8,9 +8,7 @@ import (
 
 
 
-func randomFromInterval(min, max float64) float64 {
-    return min + rand.Float64()*(max-min)
-}
+
 
 func getEggShapePoints(a, b, k float64, segmentPoints int) [][2]float64 {
     var result [][2]float64

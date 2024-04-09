@@ -1,22 +1,8 @@
 package avatar
 
 import (
-    "math"
     "math/rand"
 )
-
-
-// randomFromInterval generates a random float64 between min and max, inclusive
-func randomFromInterval(min, max float64) float64 {
-    return min + rand.Float64()*(max-min)
-}
-
-// cubicBezier calculates a point on a cubic Bezier curve given four control points and a parameter t
-func cubicBezier(P0, P1, P2, P3 [2]float64, t float64) [2]float64 {
-    x := math.Pow(1-t, 3)*P0[0] + 3*math.Pow(1-t, 2)*t*P1[0] + 3*(1-t)*math.Pow(t, 2)*P2[0] + math.Pow(t, 3)*P3[0]
-    y := math.Pow(1-t, 3)*P0[1] + 3*math.Pow(1-t, 2)*t*P1[1] + 3*(1-t)*math.Pow(t, 2)*P2[1] + math.Pow(t, 3)*P3[1]
-    return [2]float64{x, y}
-}
 
 // generateEyeParameters generates random parameters for an eye's shape
 func generateEyeParameters(width float64) map[string]float64 {

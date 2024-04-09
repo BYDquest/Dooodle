@@ -12,9 +12,7 @@ type Point struct {
     Y float64
 }
 
-func randomFromInterval(min, max float64) float64 {
-    return min + rand.Float64()*(max-min)
-}
+
 
 func computeBezierCurve(controlPoints []Point, numberOfPoints int) []Point {
     curve := make([]Point, 0)
