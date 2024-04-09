@@ -4,7 +4,6 @@ import (
     "math"
     "math/rand"
     "sort"
-    "time"
     "github.com/BYDquest/RRRDoodlers/utility"
 )
 
@@ -53,16 +52,16 @@ func generateHairLines0(faceContour []Point, numHairLines int) [][]Point {
     faceContourCopy := faceContour[:len(faceContour)-2]
     results := make([][]Point, 0)
     for i := 0; i < numHairLines; i++ {
-        numHairPoints := 20 + int(math.Floor(utility.randomFromInterval(-5, 5)))
+        numHairPoints := 20 + int(math.Floor(utility.RandomFromInterval(-5, 5)))
         hairLine := make([]Point, 0)
-        indexOffset := int(math.Floor(utility.randomFromInterval(30, 140)))
+        indexOffset := int(math.Floor(utility.RandomFromInterval(30, 140)))
         for j := 0; j < numHairPoints; j++ {
             index := (len(faceContourCopy) - (j + indexOffset)) % len(faceContourCopy)
             hairLine = append(hairLine, faceContourCopy[index])
         }
         d0 := computeBezierCurve(hairLine, numHairPoints)
         hairLine = make([]Point, 0)
-        indexOffset = int(math.Floor(utility.randomFromInterval(30, 140)))
+        indexOffset = int(math.Floor(utility.RandomFromInterval(30, 140)))
         for j := 0; j < numHairPoints; j++ {
             index := (len(faceContourCopy) - (-j + indexOffset)) % len(faceContourCopy)
             hairLine = append(hairLine, faceContourCopy[index])
@@ -85,12 +84,12 @@ func generateHairLines1(faceContour []Point, numHairLines int) [][]Point {
     faceContourCopy := faceContour[:len(faceContour)-2]
     results := make([][]Point, 0)
     for i := 0; i < numHairLines; i++ {
-        numHairPoints := 20 + int(math.Floor(utility.randomFromInterval(-5, 5)))
+        numHairPoints := 20 + int(math.Floor(utility.RandomFromInterval(-5, 5)))
         hairLine := make([]Point, 0)
-        indexStart := int(math.Floor(utility.randomFromInterval(20, 160)))
+        indexStart := int(math.Floor(utility.RandomFromInterval(20, 160)))
         hairLine = append(hairLine, faceContourCopy[(len(faceContourCopy)-indexStart)%len(faceContourCopy)])
         for j := 1; j < numHairPoints+1; j++ {
-            indexStart = int(math.Floor(utility.randomFromInterval(20, 160)))
+            indexStart = int(math.Floor(utility.RandomFromInterval(20, 160)))
             hairLine = append(hairLine, faceContourCopy[(len(faceContourCopy)-indexStart)%len(faceContourCopy)])
         }
         d := computeBezierCurve(hairLine, numHairPoints)
@@ -104,19 +103,19 @@ func generateHairLines2(faceContour []Point, numHairLines int) [][]Point {
     results := make([][]Point, 0)
     pickedIndices := make([]int, numHairLines)
     for i := range pickedIndices {
-        pickedIndices[i] = int(math.Floor(utility.randomFromInterval(10, 180)))
+        pickedIndices[i] = int(math.Floor(utility.RandomFromInterval(10, 180)))
     }
     sort.Ints(pickedIndices)
     for _, indexOffset := range pickedIndices {
-        numHairPoints := 20 + int(math.Floor(utility.randomFromInterval(-5, 5)))
+        numHairPoints := 20 + int(math.Floor(utility.RandomFromInterval(-5, 5)))
         hairLine := make([]Point, 0)
-        lower := utility.randomFromInterval(0.8, 1.4)
+        lower := utility.RandomFromInterval(0.8, 1.4)
         reverse := 1
         if rand.Float64() > 0.5 {
             reverse = -1
         }
         for j := 0; j < numHairPoints; j++ {
-            powerscale := utility.randomFromInterval(0.1, 3)
+            powerscale := utility.RandomFromInterval(0.1, 3)
             portion := (1 - math.Pow(float64(j)/float64(numHairPoints), powerscale))*(1-lower) + lower
             index := (len(faceContourCopy) - (reverse*j + indexOffset)) % len(faceContourCopy)
             hairLine = append(hairLine, Point{
@@ -142,23 +141,23 @@ func generateHairLines3(faceContour []Point, numHairLines int) [][]Point {
     results := make([][]Point, 0)
     pickedIndices := make([]int, numHairLines)
     for i := range pickedIndices {
-        pickedIndices[i] = int(math.Floor(utility.randomFromInterval(10, 180)))
+        pickedIndices[i] = int(math.Floor(utility.RandomFromInterval(10, 180)))
     }
     sort.Ints(pickedIndices)
-    splitPoint := int(math.Floor(utility.randomFromInterval(0, 200)))
+    splitPoint := int(math.Floor(utility.RandomFromInterval(0, 200)))
     for _, indexOffset := range pickedIndices {
-        numHairPoints := 30 + int(math.Floor(utility.randomFromInterval(-8, 8)))
+        numHairPoints := 30 + int(math.Floor(utility.RandomFromInterval(-8, 8)))
         hairLine := make([]Point, 0)
-        lower := utility.randomFromInterval(1, 2.3)
+        lower := utility.RandomFromInterval(1, 2.3)
         if rand.Float64() > 0.9 {
-            lower = utility.randomFromInterval(0, 1.0)
+            lower = utility.RandomFromInterval(0, 1.0)
         }
         reverse := 1
         if indexOffset > splitPoint {
             reverse = -1
         }
         for j := 0; j < numHairPoints; j++ {
-            powerscale := utility.randomFromInterval(0.1, 3)
+            powerscale := utility.RandomFromInterval(0.1, 3)
             portion := (1 - math.Pow(float64(j)/float64(numHairPoints), powerscale))*(1-lower) + lower
             index := (len(faceContourCopy) - (reverse*j*2 + indexOffset)) % len(faceContourCopy)
             hairLine = append(hairLine, Point{

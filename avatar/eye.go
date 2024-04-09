@@ -5,6 +5,9 @@ import (
 	"github.com/BYDquest/RRRDoodlers/utility"
 )
 
+
+
+
 // generateEyeParameters generates random parameters for an eye's shape
 func generateEyeParameters(width float64) map[string]float64 {
     heightUpper := rand.Float64() * width / 1.2
@@ -63,7 +66,7 @@ func generateBothEyes(width float64) ([][][2]float64, [][][2]float64) {
     // Create and modify parameters for the right eye
     randsRight := make(map[string]float64)
     for k, v := range randsLeft {
-        randsRight[k] = v + utility.randomFromInterval(-v/2.0, v/2.0)
+        randsRight[k] = v + utility.RandomFromInterval(-v/2.0, v/2.0)
     }
 
     upperLeft, lowerLeft := generateEyePoints(randsLeft, width)

@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	fmt.Println(utility.randomFromInterval(1.0, 2.0))
+	fmt.Println(utility.RandomFromInterval(1.0, 2.0))
 }
