@@ -7,12 +7,6 @@ import (
     "github.com/BYDquest/RRRDoodlers/utility"
 )
 
-type Point struct {
-    X float64
-    Y float64
-}
-
-
 
 func computeBezierCurve(controlPoints []Point, numberOfPoints int) []Point {
     curve := make([]Point, 0)

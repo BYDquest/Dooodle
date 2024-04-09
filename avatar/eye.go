@@ -2,7 +2,6 @@ package avatar
 
 import (
     "math/rand"
-	"github.com/BYDquest/RRRDoodlers/utility"
 )
 
 
@@ -52,8 +51,8 @@ func generateEyePoints(rands map[string]float64, width float64) ([][][2]float64,
     lowerEyelidPoints := make([][2]float64, 100)
 
     for t := 0; t < 100; t++ {
-        upperEyelidPoints[t] = utility.cubicBezier(P0Upper, P1Upper, P2Upper, P3Upper, float64(t)/100.0)
-        lowerEyelidPoints[t] = utility.cubicBezier(P0Lower, P1Lower, P2Lower, P3Lower, float64(t)/100.0)
+        upperEyelidPoints[t] = cubicBezier(P0Upper, P1Upper, P2Upper, P3Upper, float64(t)/100.0)
+        lowerEyelidPoints[t] = cubicBezier(P0Lower, P1Lower, P2Lower, P3Lower, float64(t)/100.0)
     }
 
     return upperEyelidPoints, lowerEyelidPoints
