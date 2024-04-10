@@ -8,18 +8,18 @@ import (
 func getEggShapePoints(a, b, k float64, segmentPoints int) [][2]float64 {
 	var result [][2]float64
 	for i := 0; i < segmentPoints; i++ {
-		degree := (math.Pi/2/float64(segmentPoints))*float64(i) + randomFromInterval(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
+		degree := (math.Pi/2/float64(segmentPoints))*float64(i) + randomInRange(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
 		y := math.Sin(degree) * b
 		x := math.Sqrt(((1 - (y*y)/(b*b)) / (1 + k*y)) * a * a)
-		x += randomFromInterval(-a/200.0, a/200.0)
+		x += randomInRange(-a/200.0, a/200.0)
 		result = append(result, [2]float64{x, y})
 	}
 
 	for i := segmentPoints; i > 0; i-- {
-		degree := (math.Pi/2/float64(segmentPoints))*float64(i) + randomFromInterval(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
+		degree := (math.Pi/2/float64(segmentPoints))*float64(i) + randomInRange(-math.Pi/1.1/float64(segmentPoints), math.Pi/1.1/float64(segmentPoints))
 		y := math.Sin(degree) * b
 		x := -math.Sqrt(((1 - (y*y)/(b*b)) / (1 + k*y)) * a * a)
-		x += randomFromInterval(-a/200.0, a/200.0)
+		x += randomInRange(-a/200.0, a/200.0)
 		result = append(result, [2]float64{x, y})
 	}
 
@@ -27,26 +27,26 @@ func getEggShapePoints(a, b, k float64, segmentPoints int) [][2]float64 {
 }
 
 func generateFaceContourPoints(numPoints int) ([][2]float64, float64, float64, [2]float64) {
-	faceSizeX0 := randomFromInterval(50, 100)
-	faceSizeY0 := randomFromInterval(70, 100)
-	faceSizeY1 := randomFromInterval(50, 80)
-	faceSizeX1 := randomFromInterval(70, 100)
-	faceK0 := randomFromInterval(0.001, 0.005) * func() float64 {
+	faceSizeX0 := randomInRange(50, 100)
+	faceSizeY0 := randomInRange(70, 100)
+	faceSizeY1 := randomInRange(50, 80)
+	faceSizeX1 := randomInRange(70, 100)
+	faceK0 := randomInRange(0.001, 0.005) * func() float64 {
 		if rand.Float64() > 0.5 {
 			return 1
 		}
 		return -1
 	}()
-	faceK1 := randomFromInterval(0.001, 0.005) * func() float64 {
+	faceK1 := randomInRange(0.001, 0.005) * func() float64 {
 		if rand.Float64() > 0.5 {
 			return 1
 		}
 		return -1
 	}()
-	face0TranslateX := randomFromInterval(-5, 5)
-	face0TranslateY := randomFromInterval(-15, 15)
-	face1TranslateY := randomFromInterval(-5, 5)
-	face1TranslateX := randomFromInterval(-5, 25)
+	face0TranslateX := randomInRange(-5, 5)
+	face0TranslateY := randomInRange(-15, 15)
+	face1TranslateY := randomInRange(-5, 5)
+	face1TranslateX := randomInRange(-5, 25)
 
 	results0 := getEggShapePoints(faceSizeX0, faceSizeY0, faceK0, numPoints)
 	results1 := getEggShapePoints(faceSizeX1, faceSizeY1, faceK1, numPoints)

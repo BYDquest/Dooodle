@@ -62,7 +62,7 @@ func generateBothEyes(width float64) ([][][2]float64, [][][2]float64) {
 	// Create and modify parameters for the right eye
 	randsRight := make(map[string]float64)
 	for k, v := range randsLeft {
-		randsRight[k] = v + randomFromInterval(-v/2.0, v/2.0)
+		randsRight[k] = v + randomInRange(-v/2.0, v/2.0)
 	}
 
 	upperLeft, lowerLeft := generateEyePoints(randsLeft, width)

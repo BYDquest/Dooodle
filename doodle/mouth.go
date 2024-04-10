@@ -5,15 +5,15 @@ import (
 )
 
 func generateMouthShape0(faceContour []Point, faceHeight, faceWidth float64) []Point {
-	mouthRightY := randomFromInterval(faceHeight/7, faceHeight/3.5)
-	mouthLeftY := randomFromInterval(faceHeight/7, faceHeight/3.5)
-	mouthRightX := randomFromInterval(faceWidth/10, faceWidth/2)
-	mouthLeftX := -mouthRightX + randomFromInterval(-faceWidth/20, faceWidth/20)
+	mouthRightY := randomInRange(faceHeight/7, faceHeight/3.5)
+	mouthLeftY := randomInRange(faceHeight/7, faceHeight/3.5)
+	mouthRightX := randomInRange(faceWidth/10, faceWidth/2)
+	mouthLeftX := -mouthRightX + randomInRange(-faceWidth/20, faceWidth/20)
 	mouthRight := Point{mouthRightX, mouthRightY}
 	mouthLeft := Point{mouthLeftX, mouthLeftY}
 
-	controlPoint0 := Point{randomFromInterval(0, mouthRightX), randomFromInterval(mouthLeftY+5, faceHeight/1.5)}
-	controlPoint1 := Point{randomFromInterval(mouthLeftX, 0), randomFromInterval(mouthLeftY+5, faceHeight/1.5)}
+	controlPoint0 := Point{randomInRange(0, mouthRightX), randomInRange(mouthLeftY+5, faceHeight/1.5)}
+	controlPoint1 := Point{randomInRange(mouthLeftX, 0), randomInRange(mouthLeftY+5, faceHeight/1.5)}
 
 	mouthPoints := make([]Point, 0)
 	for i := 0.0; i < 1; i += 0.01 {
@@ -25,15 +25,15 @@ func generateMouthShape0(faceContour []Point, faceHeight, faceWidth float64) []P
 }
 
 func generateMouthShape1(faceHeight, faceWidth float64) []Point {
-	mouthRightY := randomFromInterval(faceHeight/7, faceHeight/4)
-	mouthLeftY := randomFromInterval(faceHeight/7, faceHeight/4)
-	mouthRightX := randomFromInterval(faceWidth/10, faceWidth/2)
-	mouthLeftX := -mouthRightX + randomFromInterval(-faceWidth/20, faceWidth/20)
+	mouthRightY := randomInRange(faceHeight/7, faceHeight/4)
+	mouthLeftY := randomInRange(faceHeight/7, faceHeight/4)
+	mouthRightX := randomInRange(faceWidth/10, faceWidth/2)
+	mouthLeftX := -mouthRightX + randomInRange(-faceWidth/20, faceWidth/20)
 	mouthRight := Point{mouthRightX, mouthRightY}
 	mouthLeft := Point{mouthLeftX, mouthLeftY}
 
-	controlPoint0 := Point{randomFromInterval(0, mouthRightX), randomFromInterval(mouthLeftY+5, faceHeight/1.5)}
-	controlPoint1 := Point{randomFromInterval(mouthLeftX, 0), randomFromInterval(mouthLeftY+5, faceHeight/1.5)}
+	controlPoint0 := Point{randomInRange(0, mouthRightX), randomInRange(mouthLeftY+5, faceHeight/1.5)}
+	controlPoint1 := Point{randomInRange(mouthLeftX, 0), randomInRange(mouthLeftY+5, faceHeight/1.5)}
 
 	mouthPoints := make([]Point, 0)
 	for i := 0.0; i < 1; i += 0.01 {
@@ -61,10 +61,10 @@ func generateMouthShape1(faceHeight, faceWidth float64) []Point {
 
 func generateMouthShape2(faceContour []Point, faceHeight, faceWidth float64) []Point {
 
-	center := Point{randomFromInterval(-faceWidth/8, faceWidth/8), randomFromInterval(faceHeight/4, faceHeight/2.5)}
+	center := Point{randomInRange(-faceWidth/8, faceWidth/8), randomInRange(faceHeight/4, faceHeight/2.5)}
 
-	mouthPoints := getEggShapePoints(randomFromInterval(faceWidth/4, faceWidth/10), randomFromInterval(faceHeight/10, faceHeight/20), 0.001, 50)
-	randomRotationDegree := randomFromInterval(-math.Pi/9.5, math.Pi/9.5)
+	mouthPoints := getEggShapePoints(randomInRange(faceWidth/4, faceWidth/10), randomInRange(faceHeight/10, faceHeight/20), 0.001, 50)
+	randomRotationDegree := randomInRange(-math.Pi/9.5, math.Pi/9.5)
 
 	for i := range mouthPoints {
 		x, y := mouthPoints[i].X, mouthPoints[i].Y
