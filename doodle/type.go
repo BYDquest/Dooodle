@@ -26,14 +26,14 @@ type Eye struct {
 	PupilShiftY    float64
 }
 
-type NoseCenter struct {
+type Nose struct {
 	RightX float64
 	RightY float64
 	LeftX  float64
 	LeftY  float64
 }
 
-type FacialFeatures struct {
+type Facial struct {
 	FaceScale           float64
 	ComputedFacePoints  [][]float64
 	FaceHeight          float64
