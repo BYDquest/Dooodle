@@ -35,7 +35,7 @@ type Nose struct {
 
 type Facial struct {
 	FaceScale           float64
-	ComputedFacePoints  [][]float64
+	FacePoints  [][]float64
 	FaceHeight          float64
 	FaceWidth           float64
 	Center              [2]float64
@@ -43,7 +43,7 @@ type Facial struct {
 	EyeHeightOffset     float64
 	LeftEye             Eye
 	RightEye            Eye
-	Nose                NoseCenter
+	Nose                Nose
 	Hairs               [][]float64
 	MouthPoints         [][]float64
 }
