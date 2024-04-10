@@ -26,7 +26,7 @@ func getEggShapePoints(a, b, k float64, segmentPoints int) [][2]float64 {
 	return result
 }
 
-func generateFaceContourPoints(numPoints int) ([][2]float64, float64, float64, [2]float64) {
+func GenerateFaceContourPoints(numPoints int) Face {
 	faceSizeX0 := randomInRange(50, 100)
 	faceSizeY0 := randomInRange(70, 100)
 	faceSizeY1 := randomInRange(50, 80)

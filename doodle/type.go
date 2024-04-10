@@ -47,3 +47,11 @@ type Facial struct {
 	Hairs               [][]float64
 	MouthPoints         [][]float64
 }
+
+type Face struct {
+	FacePoints  [][]float64
+	FaceHeight          float64
+	FaceWidth           float64
+	Center              [2]float64
+}
+
