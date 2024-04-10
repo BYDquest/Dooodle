@@ -80,15 +80,14 @@ func GenerateFaceContourPoints(numPoints int) Face {
 	height := math.Abs(results[len(results)/4][1] - results[len(results)*3/4][1])
 
 	results = append(results, results[0], results[1])
-	return results, width, height, center
+
+	return Face{
+		FacePoints: results,
+		FaceWidth:  width,
+		FaceHeight: height,
+		Center:     center,
+	}
+
+
 }
 
-// func main() {
-//     // Example of usage
-//     facePoints, width, height, center := generateFaceContourPoints(100)
-//     // Here you can use the facePoints, width, height, and center for further processing or visualization
-//     _ = facePoints // This line is just to avoid unused variable error. Replace it with your actual code.
-//     _ = width
-//     _ = height
-//     _ = center
-// }

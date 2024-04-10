@@ -33,12 +33,10 @@ type Nose struct {
 	LeftY  float64
 }
 
-type Facial struct {
+type Doodle struct {
 	FaceScale           float64
-	FacePoints  [][]float64
-	FaceHeight          float64
-	FaceWidth           float64
-	Center              [2]float64
+	Face                Face
+
 	DistanceBetweenEyes float64
 	EyeHeightOffset     float64
 	LeftEye             Eye
@@ -49,7 +47,7 @@ type Facial struct {
 }
 
 type Face struct {
-	FacePoints  [][]float64
+	FacePoints  [][2]float64
 	FaceHeight          float64
 	FaceWidth           float64
 	Center              [2]float64
