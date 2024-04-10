@@ -1,4 +1,4 @@
-module github.com/BYDquest/RRRDoodlers
+module github.com/BYDquest/Dooodle
 
 go 1.22.2
 
