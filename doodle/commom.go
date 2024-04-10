@@ -8,6 +8,22 @@ import (
 	"os"
 )
 
+
+type ColorScheme struct {
+	FaceColor        string
+	BackgroundColor  string
+	HairColor        string
+	MouthColor       string
+}
+
+type Point struct {
+	X float64
+	Y float64
+}
+
+
+
+
 func ensureDirectoryExists(dirPath string) {
 	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
 		os.MkdirAll(dirPath, os.ModePerm)
@@ -39,52 +55,36 @@ func randomRGB() string {
 }
 
 
-func generateHarmoniousColors() map[string]string {
-	baseHue := rand.Float64() // Random base hue
-	saturation := 0.75
-	lightnessForFace := 0.5
-	var lightnessForBackground, lightnessForHair, lightnessForMouth float64
 
+func generateHarmoniousColors() ColorScheme {
+	baseHue := rand.Float64() // Random base hue
+	const saturation = 0.75
+	const lightnessForFace = 0.5
+
+	lightnessForBackground := 0.2
 	if lightnessForFace > 0.5 {
-		lightnessForBackground = 0.2
-	} else {
 		lightnessForBackground = 0.8
 	}
 
+	lightnessForHair := 0.3
 	if lightnessForFace < 0.5 {
 		lightnessForHair = 0.7
-	} else {
-		lightnessForHair = 0.3
 	}
 
+	lightnessForMouth := 0.6
 	if lightnessForFace > 0.5 {
 		lightnessForMouth = 0.4
-	} else {
-		lightnessForMouth = 0.6
 	}
 
 	complementaryHue := math.Mod(baseHue+0.5, 1)
-	triadicHue1 := math.Mod(baseHue+1/3, 1)
+	triadicHue1 := math.Mod(baseHue+1/3.0, 1)
 
-	r, g, b := hslToRgb(baseHue, saturation, lightnessForFace)
-	faceColor := rgbToString(r, g, b)
+	faceColor := rgbToString(hslToRgb(baseHue, saturation, lightnessForFace))
+	backgroundColor := rgbToString(hslToRgb(complementaryHue, saturation, lightnessForBackground))
+	hairColor := rgbToString(hslToRgb(triadicHue1, saturation, lightnessForHair))
+	mouthColor := rgbToString(hslToRgb(baseHue, saturation-0.25, lightnessForMouth))
 
-	r, g, b = hslToRgb(complementaryHue, saturation, lightnessForBackground)
-	backgroundColor := rgbToString(r, g, b)
-
-	r, g, b = hslToRgb(triadicHue1, saturation, lightnessForHair)
-	hairColor := rgbToString(r, g, b)
-
-	r, g, b = hslToRgb(baseHue, saturation-0.25, lightnessForMouth)
-	mouthColor := rgbToString(r, g, b)
-
-	colors := map[string]string{
-		"faceColor":        faceColor,
-		"backgroundColor":  backgroundColor,
-		"hairColor":        hairColor,
-		"mouthColor":       mouthColor,
-	}
-	return colors
+	return ColorScheme{faceColor, backgroundColor, hairColor, mouthColor}
 }
 
 func rgbToString(r, g, b int) string {
@@ -93,39 +93,32 @@ func rgbToString(r, g, b int) string {
 
 func hslToRgb(h, s, l float64) (int, int, int) {
 	var r, g, b float64
-
 	if s == 0 {
 		r, g, b = l, l, l // achromatic
 	} else {
 		var hue2rgb = func(p, q, t float64) float64 {
-			if t < 0 {
+			switch {
+			case t < 0:
 				t += 1
-			}
-			if t > 1 {
+			case t > 1:
 				t -= 1
 			}
-			if t < 1/6 {
+			switch {
+			case t < 1/6.0:
 				return p + (q-p)*6*t
-			}
-			if t < 1/2 {
+			case t < 1/2.0:
 				return q
-			}
-			if t < 2/3 {
-				return p + (q-p)*(2/3-t)*6
+			case t < 2/3.0:
+				return p + (q-p)*(2/3.0-t)*6
 			}
 			return p
 		}
 
-		q := l * (1 + s)
-		if l < 0.5 {
-			q = l * (1 + s)
-		} else {
-			q = l + s - l*s
-		}
+		q := l + s*math.Min(l, 1-l)
 		p := 2*l - q
-		r = hue2rgb(p, q, h+1/3)
+		r = hue2rgb(p, q, h+1/3.0)
 		g = hue2rgb(p, q, h)
-		b = hue2rgb(p, q, h-1/3)
+		b = hue2rgb(p, q, h-1/3.0)
 	}
 
 	return int(math.Round(r * 255)), int(math.Round(g * 255)), int(math.Round(b * 255))
@@ -134,10 +127,7 @@ func hslToRgb(h, s, l float64) (int, int, int) {
 
 
 
-type Point struct {
-	X float64
-	Y float64
-}
+
 
 // randomFromInterval generates a random float64 between min and max, inclusive
 func randomFromInterval(min, max float64) float64 {
