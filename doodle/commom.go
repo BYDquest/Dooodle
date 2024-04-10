@@ -1,9 +1,138 @@
 package doodle
 
 import (
+	"fmt"
+
 	"math"
 	"math/rand"
+	"os"
 )
+
+func ensureDirectoryExists(dirPath string) {
+	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
+		os.MkdirAll(dirPath, os.ModePerm)
+	}
+}
+
+// to check
+func convertArrayToFixedFloat(arr [][2]float64) [][2]float64 {
+	var converted [][2]float64
+	for _, pair := range arr {
+		x := fmt.Sprintf("%.2f", pair[0])
+		y := fmt.Sprintf("%.2f", pair[1])
+		converted = append(converted, [2]float64{parseStringToFloat(x), parseStringToFloat(y)})
+	}
+	return converted
+}
+
+func parseStringToFloat(s string) float64 {
+	var f float64
+	fmt.Sscanf(s, "%f", &f)
+	return f
+}
+
+func randomRGB() string {
+	r := rand.Intn(256)
+	g := rand.Intn(256)
+	b := rand.Intn(256)
+	return fmt.Sprintf("rgb(%d, %d, %d)", r, g, b)
+}
+
+
+func generateHarmoniousColors() map[string]string {
+	baseHue := rand.Float64() // Random base hue
+	saturation := 0.75
+	lightnessForFace := 0.5
+	var lightnessForBackground, lightnessForHair, lightnessForMouth float64
+
+	if lightnessForFace > 0.5 {
+		lightnessForBackground = 0.2
+	} else {
+		lightnessForBackground = 0.8
+	}
+
+	if lightnessForFace < 0.5 {
+		lightnessForHair = 0.7
+	} else {
+		lightnessForHair = 0.3
+	}
+
+	if lightnessForFace > 0.5 {
+		lightnessForMouth = 0.4
+	} else {
+		lightnessForMouth = 0.6
+	}
+
+	complementaryHue := math.Mod(baseHue+0.5, 1)
+	triadicHue1 := math.Mod(baseHue+1/3, 1)
+
+	r, g, b := hslToRgb(baseHue, saturation, lightnessForFace)
+	faceColor := rgbToString(r, g, b)
+
+	r, g, b = hslToRgb(complementaryHue, saturation, lightnessForBackground)
+	backgroundColor := rgbToString(r, g, b)
+
+	r, g, b = hslToRgb(triadicHue1, saturation, lightnessForHair)
+	hairColor := rgbToString(r, g, b)
+
+	r, g, b = hslToRgb(baseHue, saturation-0.25, lightnessForMouth)
+	mouthColor := rgbToString(r, g, b)
+
+	colors := map[string]string{
+		"faceColor":        faceColor,
+		"backgroundColor":  backgroundColor,
+		"hairColor":        hairColor,
+		"mouthColor":       mouthColor,
+	}
+	return colors
+}
+
+func rgbToString(r, g, b int) string {
+	return fmt.Sprintf("rgb(%d, %d, %d)", r, g, b)
+}
+
+func hslToRgb(h, s, l float64) (int, int, int) {
+	var r, g, b float64
+
+	if s == 0 {
+		r, g, b = l, l, l // achromatic
+	} else {
+		var hue2rgb = func(p, q, t float64) float64 {
+			if t < 0 {
+				t += 1
+			}
+			if t > 1 {
+				t -= 1
+			}
+			if t < 1/6 {
+				return p + (q-p)*6*t
+			}
+			if t < 1/2 {
+				return q
+			}
+			if t < 2/3 {
+				return p + (q-p)*(2/3-t)*6
+			}
+			return p
+		}
+
+		q := l * (1 + s)
+		if l < 0.5 {
+			q = l * (1 + s)
+		} else {
+			q = l + s - l*s
+		}
+		p := 2*l - q
+		r = hue2rgb(p, q, h+1/3)
+		g = hue2rgb(p, q, h)
+		b = hue2rgb(p, q, h-1/3)
+	}
+
+	return int(math.Round(r * 255)), int(math.Round(g * 255)), int(math.Round(b * 255))
+}
+
+
+
 
 type Point struct {
 	X float64
