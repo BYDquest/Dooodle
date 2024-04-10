@@ -9,21 +9,6 @@ import (
 )
 
 
-type ColorScheme struct {
-	FaceColor        string
-	BackgroundColor  string
-	HairColor        string
-	MouthColor       string
-}
-
-type Point struct {
-	X float64
-	Y float64
-}
-
-
-
-
 func ensureDirectoryExists(dirPath string) {
 	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
 		os.MkdirAll(dirPath, os.ModePerm)
