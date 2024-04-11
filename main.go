@@ -22,10 +22,6 @@
 
 
 
-
-
-
-
 package main
 
 import (
@@ -33,28 +29,24 @@ import (
 	"image"
 	"image/color"
 	"image/png"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/srwiley/oksvg"
 	"github.com/srwiley/rasterx"
 )
 
-func drawBackground(img *image.RGBA, bgColor color.Color) {
-	for y := 0; y < img.Bounds().Dy(); y++ {
-		for x := 0; x < img.Bounds().Dx(); x++ {
-			img.Set(x, y, bgColor)
-		}
-	}
-}
-
 func convertSVGtoPNG(inputFolder, outputFolder string) error {
 	files, err := os.ReadDir(inputFolder)
 	if err != nil {
 		return fmt.Errorf("error reading input folder: %w", err)
 	}
+
+	// Regular expression to find the rect element and extract its fill attribute
+	rectRegex := regexp.MustCompile(`<rect[^>]+fill="rgb\((\d+),\s*(\d+),\s*(\d+)\)"[^>]*>`)
 
 	for _, file := range files {
 		if file.IsDir() {
@@ -67,9 +59,22 @@ func convertSVGtoPNG(inputFolder, outputFolder string) error {
 		}
 
 		inputPath := filepath.Join(inputFolder, fileName)
-		svgContent, err := ioutil.ReadFile(inputPath)
+		svgContent, err := os.ReadFile(inputPath)
 		if err != nil {
 			return fmt.Errorf("failed to read SVG file %s: %w", fileName, err)
+		}
+
+		// Attempt to find the rect element and extract its fill color
+		matches := rectRegex.FindStringSubmatch(string(svgContent))
+		var backgroundColor color.RGBA
+		if len(matches) == 4 {
+			r, _ := strconv.Atoi(matches[1])
+			g, _ := strconv.Atoi(matches[2])
+			b, _ := strconv.Atoi(matches[3])
+			backgroundColor = color.RGBA{uint8(r), uint8(g), uint8(b), 255} // Assuming full opacity
+		} else {
+			// Default background color if no rect element is found
+			backgroundColor = color.RGBA{255, 255, 255, 255} // White
 		}
 
 		icon, err := oksvg.ReadIconStream(strings.NewReader(string(svgContent)))
@@ -85,9 +90,12 @@ func convertSVGtoPNG(inputFolder, outputFolder string) error {
 		icon.SetTarget(0, 0, float64(icon.ViewBox.W), float64(icon.ViewBox.H))
 		img := image.NewRGBA(image.Rect(0, 0, int(icon.ViewBox.W), int(icon.ViewBox.H)))
 
-		// Set the background color here. Change the color as needed.
-		backgroundColor := color.RGBA{255, 255, 255, 255} // White background
-		drawBackground(img, backgroundColor)
+		// Fill the image with the extracted background color
+		for y := 0; y < int(icon.ViewBox.H); y++ {
+			for x := 0; x < int(icon.ViewBox.W); x++ {
+				img.Set(x, y, backgroundColor)
+			}
+		}
 
 		scannerGV := rasterx.NewScannerGV(int(icon.ViewBox.W), int(icon.ViewBox.H), img, img.Bounds())
 		rasterizer := rasterx.NewDasher(int(icon.ViewBox.W), int(icon.ViewBox.H), scannerGV)
@@ -113,10 +121,12 @@ func convertSVGtoPNG(inputFolder, outputFolder string) error {
 
 func main() {
 	inputFolder := "./avatar"
-    outputFolder := "./avatar-png"
-
+	outputFolder := "./avatar-png"
 
 	if err := convertSVGtoPNG(inputFolder, outputFolder); err != nil {
 		fmt.Println("Error converting SVG files:", err)
 	}
 }
+
+
+
