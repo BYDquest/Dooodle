@@ -46,9 +46,6 @@ type EyePoints struct {
 	Upper, Lower, Center [][]float64
 }
 
-func randomFromInterval(min, max float64) float64 {
-	return min + rand.Float64()*(max-min)
-}
 
 func cubicBezier(P0, P1, P2, P3 [2]float64, t float64) [2]float64 {
 	x := math.Pow(1-t, 3)*P0[0] + 3*math.Pow(1-t, 2)*t*P1[0] + 3*(1-t)*math.Pow(t, 2)*P2[0] + math.Pow(t, 3)*P3[0]
@@ -68,14 +65,14 @@ func generateEyeParameters(width float64) EyeParameters {
 
 	eyeTrueWidth := width + (P3UpperRandX-P0UpperRandX)*width/16
 
-	offsetUpperLeftX := randomFromInterval(-eyeTrueWidth/10.0, eyeTrueWidth/2.3)
-	offsetUpperRightX := randomFromInterval(-eyeTrueWidth/10.0, eyeTrueWidth/2.3)
+	offsetUpperLeftX := randomInRange(-eyeTrueWidth/10.0, eyeTrueWidth/2.3)
+	offsetUpperRightX := randomInRange(-eyeTrueWidth/10.0, eyeTrueWidth/2.3)
 	offsetUpperLeftY := offsetUpperLeftRandY * heightUpper
 	offsetUpperRightY := offsetUpperRightRandY * heightUpper
-	offsetLowerLeftX := randomFromInterval(offsetUpperLeftX, eyeTrueWidth/2.1)
-	offsetLowerRightX := randomFromInterval(offsetUpperRightX, eyeTrueWidth/2.1)
-	offsetLowerLeftY := randomFromInterval(-offsetUpperLeftY+5, heightLower)
-	offsetLowerRightY := randomFromInterval(-offsetUpperRightY+5, heightLower)
+	offsetLowerLeftX := randomInRange(offsetUpperLeftX, eyeTrueWidth/2.1)
+	offsetLowerRightX := randomInRange(offsetUpperRightX, eyeTrueWidth/2.1)
+	offsetLowerLeftY := randomInRange(-offsetUpperLeftY+5, heightLower)
+	offsetLowerRightY := randomInRange(-offsetUpperRightY+5, heightLower)
 
 	return EyeParameters{
 		HeightUpper: heightUpper, HeightLower: heightLower,
@@ -177,7 +174,7 @@ func GenerateBothEyes(width float64) (EyePoints, EyePoints) {
 	randsLeft := generateEyeParameters(width)
 	randsRight := randsLeft
 
-	randsRight.HeightUpper += randomFromInterval(-randsRight.HeightUpper/2, randsRight.HeightUpper/2)
+	randsRight.HeightUpper += randomInRange(-randsRight.HeightUpper/2, randsRight.HeightUpper/2)
 	// Repeat the above line for other fields of randsRight as needed
 
 	leftEye := generateEyePoints(randsLeft, width)
