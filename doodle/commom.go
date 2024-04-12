@@ -8,7 +8,6 @@ import (
 	"os"
 )
 
-
 func ensureDirectoryExists(dirPath string) {
 	if _, err := os.Stat(dirPath); os.IsNotExist(err) {
 		os.MkdirAll(dirPath, os.ModePerm)
@@ -38,8 +37,6 @@ func randomRGB() string {
 	b := rand.Intn(256)
 	return fmt.Sprintf("rgb(%d, %d, %d)", r, g, b)
 }
-
-
 
 func generateHarmoniousColors() ColorScheme {
 	baseHue := rand.Float64() // Random base hue
@@ -109,17 +106,12 @@ func hslToRgb(h, s, l float64) (int, int, int) {
 	return int(math.Round(r * 255)), int(math.Round(g * 255)), int(math.Round(b * 255))
 }
 
-
 func randomInRange(min, max float64) float64 {
 	// Generate random number in the range [0, 1)
 	random := rand.Float64()
 	// Adjust random number to our range [min, max]
 	return min + random*(max-min)
 }
-
-
-
-
 
 func GetEggShapePoints(a, b, k float64, segmentPoints int) []Point {
 	result := make([]Point, 0, segmentPoints*4)
